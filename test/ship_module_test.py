@@ -2,7 +2,7 @@ import unittest
 from advent import ShipModule
 
 
-class TestStringMethods(unittest.TestCase):
+class TestShipModule(unittest.TestCase):
     def test_it_works(self):
         self.assertTrue(ShipModule)
 

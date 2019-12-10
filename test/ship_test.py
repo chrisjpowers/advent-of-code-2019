@@ -3,7 +3,7 @@ from unittest.mock import Mock
 from advent import Ship
 
 
-class TestStringMethods(unittest.TestCase):
+class TestShip(unittest.TestCase):
     def test_fuel_for_launch_without_modules(self):
         ship = Ship()
         self.assertEqual(ship.fuel_for_launch(), 0)
