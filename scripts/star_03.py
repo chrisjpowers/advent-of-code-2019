@@ -2,10 +2,10 @@ from advent import Intcode
 
 
 def main():
-    ic = Intcode(codes())
-    ic.replace(1, 12)
-    ic.replace(2, 2)
-    comp = ic.compute()
+    comp = Intcode(codes())\
+        .replace(1, 12)\
+        .replace(2, 2)\
+        .compute()
     print(comp.codes[0])
 
 
