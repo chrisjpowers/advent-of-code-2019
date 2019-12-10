@@ -5,7 +5,9 @@ class Intcode:
         self.done = done
     
     def replace(self, index, value):
-        self.codes[index] = value
+        codes = self.codes.copy()
+        codes[index] = value
+        return Intcode(codes, index=self.index, done=self.done)
 
     def compute(self):
         intcode = self

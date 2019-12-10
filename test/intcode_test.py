@@ -34,8 +34,8 @@ class TestIntcode(unittest.TestCase):
         self.assertEqual(ic.compute(), target)
     
     def test_replace(self):
-        ic = Intcode([0, 1, 2, 3, 4, 5])
-        ic.replace(2, 98)
-        ic.replace(4, 99)
+        ic = Intcode([0, 1, 2, 3, 4, 5])\
+            .replace(2, 98)\
+            .replace(4, 99)
         target = Intcode([0, 1, 98, 3, 99, 5])
         self.assertEqual(ic, target)
