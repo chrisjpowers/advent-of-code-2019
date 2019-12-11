@@ -4,7 +4,42 @@ from advent.wire import Wire, WirePoint, WireVector
 
 
 class TestWire(unittest.TestCase):
-    pass
+    def test_parse_wire(self):
+        w = Wire.parse("R2,U2,L2")
+        expected = Wire([
+            WireVector(WirePoint(0,0), "R", 2),
+            WireVector(WirePoint(2,0), "U", 2),
+            WireVector(WirePoint(2,2), "L", 2)
+        ])
+        self.assertEqual(w, expected)
+    
+    def test_points(self):
+        w = Wire.parse("R2,U2")
+        expected = {
+            WirePoint(1,0),
+            WirePoint(2,0),
+            WirePoint(2,1),
+            WirePoint(2,2)
+        }
+        self.assertEqual(w.points(), expected)
+
+    def test_intersection(self):
+        w1 = Wire.parse("R2,U2,L2")
+        w2 = Wire.parse("D1,R1,U2,R2")
+        expected = {
+            WirePoint(1,0),
+            WirePoint(2,1)
+        }
+        self.assertEqual(w1 & w2, expected)
+        self.assertEqual(w1.closest_intersection(w2).distance, 1)
+    
+    def test_closest_intersection(self):
+        w1 = Wire.parse("R75,D30,R83,U83,L12,D49,R71,U7,L72")
+        w2 = Wire.parse("U62,R66,U55,R34,D71,R55,D58,R83")
+        self.assertEqual(w1.closest_intersection(w2).distance, 159)
+        w1 = Wire.parse("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51")
+        w2 = Wire.parse("U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")
+        self.assertEqual(w1.closest_intersection(w2).distance, 135)
 
 
 class TestWireVector(unittest.TestCase):

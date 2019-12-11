@@ -1,5 +1,34 @@
 class Wire:
-    pass
+    def __init__(self, vectors):
+        self.vectors = vectors
+    
+    def __eq__(self, other):
+        return self.vectors == other.vectors
+    
+    def __and__(self, other):
+        return self.points() & other.points()
+    
+    def points(self):
+        return set.union(*[set(v.points) for v in self.vectors]) - {WirePoint(0,0)}
+    
+    def closest_intersection(self, other):
+        intersections = self & other
+        closest_point = WirePoint(1000000, 100000)
+        for intersection in intersections:
+            if intersection.distance < closest_point.distance:
+                closest_point = intersection
+        return closest_point
+
+    @classmethod
+    def parse(cls, encoded):
+        last_point = WirePoint(0,0)
+        vectors = []
+        for code in encoded.split(','):
+            v = WireVector.parse(last_point, code)
+            last_point = v.final_point
+            vectors.append(v)
+        return cls(vectors)
+
 
 class WireVector():
     def __init__(self, point, direction, length):
@@ -13,6 +42,13 @@ class WireVector():
     
     def __and__(self, other):
         return set(self.points) & set(other.points)
+    
+    def __eq__(self, other):
+        return (
+            self.point == other.point and
+            self.direction == other.direction and
+            self.length == other.length
+        )
 
     @property
     def final_point(self):
