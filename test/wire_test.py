@@ -41,6 +41,19 @@ class TestWire(unittest.TestCase):
         w2 = Wire.parse("U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")
         self.assertEqual(w1.closest_intersection(w2).distance, 135)
 
+    def test_steps_to_point(self):
+        w = Wire.parse("R2,U2,L1")
+        steps = w.steps_to_point(WirePoint(1,2))
+        self.assertEqual(steps, 5)
+
+    def test_shortest_intersection(self):
+        w1 = Wire.parse("R75,D30,R83,U83,L12,D49,R71,U7,L72")
+        w2 = Wire.parse("U62,R66,U55,R34,D71,R55,D58,R83")
+        self.assertEqual(w1.shortest_path(w2), 610)
+        w1 = Wire.parse("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51")
+        w2 = Wire.parse("U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")
+        self.assertEqual(w1.shortest_path(w2), 410)
+
 
 class TestWireVector(unittest.TestCase):
     def test_parse_vector(self):

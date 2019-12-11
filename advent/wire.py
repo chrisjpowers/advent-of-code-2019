@@ -11,6 +11,16 @@ class Wire:
     def points(self):
         return set.union(*[set(v.points) for v in self.vectors]) - {WirePoint(0,0)}
     
+    def steps_to_point(self, point):
+        steps = 0
+        for v in self.vectors:
+            if point in v.points:
+                steps += v.points.index(point)
+                return steps
+            else:
+                # Don't count the first point
+                steps += len(v.points) - 1
+    
     def closest_intersection(self, other):
         intersections = self & other
         closest_point = WirePoint(1000000, 100000)
@@ -18,6 +28,15 @@ class Wire:
             if intersection.distance < closest_point.distance:
                 closest_point = intersection
         return closest_point
+    
+    def shortest_path(self, other):
+        intersections = self & other
+        shortest_path = 1000000
+        for intersection in intersections:
+            sum = self.steps_to_point(intersection) + other.steps_to_point(intersection)
+            if sum < shortest_path:
+                shortest_path = sum
+        return shortest_path
 
     @classmethod
     def parse(cls, encoded):
